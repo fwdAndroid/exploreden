@@ -6,21 +6,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-class LocationDetail extends StatefulWidget {
+class FavourteDetail extends StatefulWidget {
   final name;
   final address;
   final description;
-  const LocationDetail(
+  final uuid;
+  const FavourteDetail(
       {super.key,
       required this.address,
       required this.description,
-      required this.name});
+      required this.name,
+      required this.uuid});
 
   @override
-  State<LocationDetail> createState() => _LocationDetailState();
+  State<FavourteDetail> createState() => _FavourteDetailState();
 }
 
-class _LocationDetailState extends State<LocationDetail> {
+class _FavourteDetailState extends State<FavourteDetail> {
   bool _isLoading = false;
   var uuid = Uuid().v4();
   @override
@@ -93,7 +95,7 @@ class _LocationDetailState extends State<LocationDetail> {
                       ),
                       onPressed: profile,
                       child: Text(
-                        "Mark as Favourite",
+                        "Delete",
                         style: TextStyle(
                             color: colorWhite,
                             fontSize: 15,
@@ -109,18 +111,12 @@ class _LocationDetailState extends State<LocationDetail> {
     setState(() {
       _isLoading = true;
     });
-    await FirebaseFirestore.instance.collection("favourite").doc(uuid).set({
-      "Location Name": widget.name,
-      "Location Description": widget.description,
-      "uid": FirebaseAuth.instance.currentUser!.uid,
-      "location Address": widget.address,
-      "uuid": uuid
-    });
+    await FirebaseFirestore.instance.collection("favourite").doc(uuid).delete();
     setState(() {
       _isLoading = false;
     });
     Navigator.push(
         context, MaterialPageRoute(builder: (builder) => MainDashboard()));
-    showSnakBar("'Location Marked as Favourite'", context);
+    showSnakBar("'Location Delete'", context);
   }
 }
