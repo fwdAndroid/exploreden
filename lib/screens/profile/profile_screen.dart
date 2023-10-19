@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:exploreden/screens/profile/interest_screen.dart';
+import 'package:exploreden/services/database_service.dart';
 import 'package:exploreden/utils/colors.dart';
 import 'package:exploreden/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -191,21 +192,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const SizedBox(
             height: 20,
           ),
-          Center(
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: mainColor,
-                  fixedSize: const Size(303, 60),
-                ),
-                onPressed: profile,
-                child: Text(
-                  "Confrim",
-                  style: TextStyle(
-                      color: colorWhite,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
-                )),
-          )
+          _isLoading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Center(
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: mainColor,
+                        fixedSize: const Size(303, 60),
+                      ),
+                      onPressed: profile,
+                      child: Text(
+                        "Confrim",
+                        style: TextStyle(
+                            color: colorWhite,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold),
+                      )),
+                )
         ],
       ),
     );
@@ -218,5 +223,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  void profile() {}
+  void profile() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String rse = await DatabaseMethods().profile(
+        firstname: firstController.text,
+        lastname: lastController.text,
+        phone: phoneController.text,
+        file: _image!);
+
+    print(rse);
+    setState(() {
+      _isLoading = false;
+    });
+    if (rse != 'sucess') {
+      showSnakBar(rse, context);
+    } else {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (builder) => InterestScreen()));
+    }
+  }
 }
