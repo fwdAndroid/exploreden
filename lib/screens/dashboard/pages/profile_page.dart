@@ -19,20 +19,30 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection("users").snapshots(),
-            builder: (context, snapshot) {
+        child: StreamBuilder<Object>(
+            stream: FirebaseFirestore.instance
+                .collection("users")
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .snapshots(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (!snapshot.hasData) {
+                return new CircularProgressIndicator();
+              }
+              var document = snapshot.data;
               return Column(
                 children: [
                   const SizedBox(
                     height: 40,
                   ),
                   ListTile(
-                    trailing: Image.asset(
-                      "assets/face.png",
+                    trailing: Image.network(
+                      document['photoURL'],
+                      fit: BoxFit.cover,
+                      width: 50,
+                      height: 100,
                     ),
                     title: Text(
-                      "Emule",
+                      document['firstName'],
                       style: TextStyle(
                           color: colorBlack,
                           fontSize: 30,
@@ -93,11 +103,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   ListTile(
                     trailing: Icon(
-                      Icons.settings,
+                      Icons.edit,
                       color: mainColor,
                     ),
                     title: Text(
-                      "Settings",
+                      "Edit Profile",
                       style: TextStyle(
                         color: colorBlack,
                         fontSize: 16,
