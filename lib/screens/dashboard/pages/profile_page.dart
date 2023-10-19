@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exploreden/screens/auth/sign_in_page.dart';
 import 'package:exploreden/screens/history/visit_history.dart';
 import 'package:exploreden/screens/noti/noti.dart';
+import 'package:exploreden/screens/profile/edit_profile.dart';
 import 'package:exploreden/utils/colors.dart';
 import 'package:exploreden/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -102,6 +103,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: mainColor,
                   ),
                   ListTile(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => EditProfile()));
+                    },
                     trailing: Icon(
                       Icons.edit,
                       color: mainColor,
