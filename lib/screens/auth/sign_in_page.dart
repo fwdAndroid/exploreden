@@ -168,21 +168,23 @@ class _SignInPageState extends State<SignInPage> {
             const SizedBox(
               height: 20,
             ),
-            Center(
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: mainColor,
-                    fixedSize: const Size(303, 60),
+            _isloading
+                ? Center(child: CircularProgressIndicator())
+                : Center(
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: mainColor,
+                          fixedSize: const Size(303, 60),
+                        ),
+                        onPressed: signUpUsers,
+                        child: Text(
+                          "Enter",
+                          style: TextStyle(
+                              color: colorWhite,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold),
+                        )),
                   ),
-                  onPressed: signUpUsers,
-                  child: Text(
-                    "Enter",
-                    style: TextStyle(
-                        color: colorWhite,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold),
-                  )),
-            ),
             TextButton(
                 onPressed: () {
                   Navigator.push(context,
