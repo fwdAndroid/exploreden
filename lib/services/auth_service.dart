@@ -7,6 +7,32 @@ class AuthMethods {
 
 //Get Users Details
 
+//login Deata
+  Future<String> loginInUser({
+    required String email,
+    required String pass,
+  }) async {
+    String res = 'Some error occured';
+    try {
+      if (email.isNotEmpty || pass.isNotEmpty) {
+        await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: pass);
+
+        res = 'sucess';
+      }
+    } on FirebaseException catch (e) {
+      if (e == 'WrongEmail') {
+        print(e.message);
+      }
+      if (e == 'WrongPassword') {
+        print(e.message);
+      }
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
   //Register User with Add User
   Future<String> signUpUser({
     required String email,
@@ -35,27 +61,4 @@ class AuthMethods {
 }
 
 ///Login User with Add Useer
-Future<String> loginInUser({
-  required String email,
-  required String pass,
-}) async {
-  String res = 'Some error occured';
-  try {
-    if (email.isNotEmpty || pass.isNotEmpty) {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: pass);
 
-      res = 'sucess';
-    }
-  } on FirebaseException catch (e) {
-    if (e == 'WrongEmail') {
-      print(e.message);
-    }
-    if (e == 'WrongPassword') {
-      print(e.message);
-    }
-  } catch (e) {
-    res = e.toString();
-  }
-  return res;
-}

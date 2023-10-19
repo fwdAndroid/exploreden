@@ -1,19 +1,20 @@
-import 'package:exploreden/screens/auth/sign_in_page.dart';
-import 'package:exploreden/screens/profile/profile_screen.dart';
+import 'package:exploreden/screens/auth/auth_signup.dart';
+import 'package:exploreden/screens/dashboard/main_dashboard.dart';
 import 'package:exploreden/services/auth_service.dart';
 import 'package:exploreden/utils/colors.dart';
 import 'package:exploreden/utils/controllers.dart';
 import 'package:exploreden/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class AuthSignUp extends StatefulWidget {
-  const AuthSignUp({super.key});
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
 
   @override
-  State<AuthSignUp> createState() => _AuthSignUpState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _AuthSignUpState extends State<AuthSignUp> {
+class _SignInPageState extends State<SignInPage> {
   bool _isloading = false;
   @override
   Widget build(BuildContext context) {
@@ -85,7 +86,7 @@ class _AuthSignUpState extends State<AuthSignUp> {
                 ),
                 margin: const EdgeInsets.only(left: 15, right: 15),
                 child: TextFormField(
-                  controller: signUpemailControllers,
+                  controller: loginEmailControllers,
                   decoration: InputDecoration(
                     hintText: "Enter Your Email Address ",
                     fillColor: colorWhite,
@@ -137,7 +138,7 @@ class _AuthSignUpState extends State<AuthSignUp> {
                 ),
                 margin: const EdgeInsets.only(left: 15, right: 15),
                 child: TextFormField(
-                  controller: signUppassControllers,
+                  controller: loginPasswordControllers,
                   decoration: InputDecoration(
                     hintText: "Enter Your Password ",
                     fillColor: colorWhite,
@@ -185,10 +186,10 @@ class _AuthSignUpState extends State<AuthSignUp> {
             TextButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (builder) => SignInPage()));
+                      MaterialPageRoute(builder: (builder) => AuthSignUp()));
                 },
                 child: Text(
-                  "Already Have an account",
+                  "Don't Have an account",
                   style: TextStyle(color: mainColor),
                 ))
           ],
@@ -201,9 +202,9 @@ class _AuthSignUpState extends State<AuthSignUp> {
     setState(() {
       _isloading = true;
     });
-    String rse = await AuthMethods().signUpUser(
-      email: signUpemailControllers.text,
-      pass: signUppassControllers.text,
+    String rse = await AuthMethods().loginInUser(
+      email: loginEmailControllers.text,
+      pass: loginPasswordControllers.text,
     );
 
     print(rse);
@@ -214,7 +215,7 @@ class _AuthSignUpState extends State<AuthSignUp> {
       showSnakBar(rse, context);
     } else {
       Navigator.push(
-          context, MaterialPageRoute(builder: (builder) => ProfileScreen()));
+          context, MaterialPageRoute(builder: (builder) => MainDashboard()));
     }
   }
 }

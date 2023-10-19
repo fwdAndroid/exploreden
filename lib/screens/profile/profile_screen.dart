@@ -1,6 +1,5 @@
 import 'package:exploreden/screens/profile/interest_screen.dart';
 import 'package:exploreden/utils/colors.dart';
-import 'package:exploreden/utils/textformfield.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -38,24 +37,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const SizedBox(
             height: 20,
           ),
-          TextFormInputField(
-              controller: firstController,
-              hintText: "First Name",
-              textInputType: TextInputType.text),
+          // TextFormInputField(
+          //     controller: firstController,
+          //     hintText: "First Name",
+          //     textInputType: TextInputType.text),
           const SizedBox(
             height: 15,
           ),
-          TextFormInputField(
-              controller: lastController,
-              hintText: "Last Name",
-              textInputType: TextInputType.text),
+          // TextFormInputField(
+          //     controller: lastController,
+          //     hintText: "Last Name",
+          //     textInputType: TextInputType.text),
           const SizedBox(
             height: 15,
           ),
-          TextFormInputField(
-              controller: phoneController,
-              hintText: "Phone Number",
-              textInputType: TextInputType.number),
+          // TextFormInputField(
+          //     controller: phoneController,
+          //     hintText: "Phone Number",
+          //     textInputType: TextInputType.number),
           const SizedBox(
             height: 20,
           ),
