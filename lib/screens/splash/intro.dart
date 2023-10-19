@@ -1,4 +1,5 @@
 import 'package:exploreden/screens/auth/auth_signup.dart';
+import 'package:exploreden/screens/auth/sign_in_page.dart';
 import 'package:exploreden/utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +61,7 @@ class _IntroPageState extends State<IntroPage> {
               ),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (builder) => AuthSignUp()));
+                    MaterialPageRoute(builder: (builder) => SignInPage()));
               },
               child: Text(
                 "Lets Explore",
