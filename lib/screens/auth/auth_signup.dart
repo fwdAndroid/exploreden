@@ -184,15 +184,17 @@ class _AuthSignUpState extends State<AuthSignUp> {
                               fontWeight: FontWeight.bold),
                         )),
                   ),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (builder) => SignInPage()));
-                },
-                child: Text(
-                  "Already Have an account",
-                  style: TextStyle(color: mainColor),
-                ))
+            Center(
+              child: TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (builder) => SignInPage()));
+                  },
+                  child: Text(
+                    "Already Have an account",
+                    style: TextStyle(color: mainColor),
+                  )),
+            )
           ],
         ),
       ),

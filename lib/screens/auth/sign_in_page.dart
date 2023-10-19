@@ -185,15 +185,17 @@ class _SignInPageState extends State<SignInPage> {
                               fontWeight: FontWeight.bold),
                         )),
                   ),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (builder) => AuthSignUp()));
-                },
-                child: Text(
-                  "Don't Have an account",
-                  style: TextStyle(color: mainColor),
-                ))
+            Center(
+              child: TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (builder) => AuthSignUp()));
+                  },
+                  child: Text(
+                    "Don't Have an account",
+                    style: TextStyle(color: mainColor),
+                  )),
+            )
           ],
         ),
       ),
