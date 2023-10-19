@@ -2,6 +2,7 @@ import 'package:exploreden/screens/dashboard/pages/favourite_page.dart';
 import 'package:exploreden/screens/dashboard/pages/home_page.dart';
 import 'package:exploreden/screens/dashboard/pages/message_page.dart';
 import 'package:exploreden/screens/dashboard/pages/profile_page.dart';
+import 'package:exploreden/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class MainDashboard extends StatefulWidget {
@@ -47,12 +48,11 @@ class _MainDashboardState extends State<MainDashboard> {
             ),
           ),
           BottomNavigationBarItem(
-            label: "Message",
-            icon: Image.asset(
-              _currentIndex == 2
-                  ? 'assets/mdi_message-text-outline.png'
-                  : 'assets/homepage 6.png',
-              height: 25,
+            label: "Location",
+            icon: Icon(
+              Icons.location_pin,
+              size: 25,
+              color: _currentIndex == 2 ? mainColor : colorBlack,
             ),
           ),
           BottomNavigationBarItem(
