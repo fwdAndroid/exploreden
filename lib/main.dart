@@ -1,4 +1,5 @@
 import 'package:exploreden/firebase_options.dart';
+import 'package:exploreden/map_screen.dart';
 import 'package:exploreden/screens/splash/intro.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
