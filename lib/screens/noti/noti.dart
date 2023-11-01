@@ -1,4 +1,3 @@
-import 'package:exploreden/screens/destination.dart';
 import 'package:flutter/material.dart';
 
 class Notify extends StatefulWidget {
@@ -22,10 +21,10 @@ class _NotifyState extends State<Notify> {
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (builder) => DestinationPage()));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (builder) => DestinationPage()));
                 },
                 leading: CircleAvatar(
                   backgroundImage: AssetImage("assets/face.png"),

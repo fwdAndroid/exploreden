@@ -1,4 +1,3 @@
-import 'package:exploreden/screens/destination.dart';
 import 'package:exploreden/utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -26,10 +25,10 @@ class _VisitHistoryState extends State<VisitHistory> {
                   selectedTileColor: mainColor,
                   selectedColor: mainColor,
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => DestinationPage()));
+                    //  Navigator.push(
+                    // context,
+                    // MaterialPageRoute(
+                    //     builder: (builder) => DestinationPage()));
                   },
                   subtitle: Text("22 December 2023"),
                   title: Text("RedFish Lake")),
