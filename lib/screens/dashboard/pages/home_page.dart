@@ -5,6 +5,7 @@ import 'package:exploreden/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:share_plus/share_plus.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -141,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                             builder: (builder) =>
                                 PlaceDetailScreen(placeInfo)));
                   },
-                  child: Stack(
+                  child: Column(
                     children: [
                       Container(
                         alignment: AlignmentDirectional.center,
@@ -157,54 +158,26 @@ class _HomePageState extends State<HomePage> {
                           },
                         ),
                       ),
-                      Positioned(
-                        bottom: 100,
-                        left: 30,
-                        child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              placeInfo.name,
-                              style: TextStyle(
-                                  color: colorWhite,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                      ),
+                      Align(
+                          alignment: AlignmentDirectional.bottomCenter,
+                          child: Text(
+                            placeInfo.name,
+                            style: TextStyle(
+                                color: mainColor, fontWeight: FontWeight.bold),
+                          )),
+                      Align(
+                          alignment: AlignmentDirectional.bottomCenter,
+                          child: Text(
+                            placeInfo.address,
+                            style: TextStyle(
+                                color: mainColor, fontWeight: FontWeight.bold),
+                          )),
                     ],
                   ),
                 );
               },
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FloatingActionButton(
-                backgroundColor: Colors.red,
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("I dont like that place")));
-                },
-                child: Icon(
-                  Icons.close,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(
-                width: 30,
-              ),
-              FloatingActionButton(
-                backgroundColor: mainColor,
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("I liked that place")));
-                },
-                child: Icon(
-                  Icons.favorite,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          )
         ],
       ),
     );
@@ -230,8 +203,9 @@ class _HomePageState extends State<HomePage> {
             borderRadius: BorderRadius.circular(20),
             child: Image.memory(
               response.bodyBytes,
-              width: MediaQuery.of(context).size.width,
+              height: 150,
               fit: BoxFit.cover,
+              width: 150,
               filterQuality: FilterQuality.high,
             ),
           ),
@@ -272,6 +246,19 @@ class PlaceDetailScreen extends StatelessWidget {
             SizedBox(height: 8.0),
             Text('Address: ${placeInfo.address}'),
             // Add more details as needed
+            const SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Builder(builder: (context) {
+                return OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(fixedSize: Size(300, 45)),
+                  onPressed: () => _onShare(context),
+                  label: Text("Share"),
+                  icon: Icon(Icons.share),
+                );
+              }),
+            ),
           ],
         ),
       ),
@@ -284,5 +271,11 @@ class PlaceDetailScreen extends StatelessWidget {
         'maxwidth=400'
         '&photoreference=$photoReference'
         '&key=$apiKey';
+  }
+
+  void _onShare(context) {
+    Share.share(
+        'hey! check out this new app https://play.google.com/store/search?q=pub%3ADivTag&c=apps',
+        subject: 'DivTag Apps Link');
   }
 }
