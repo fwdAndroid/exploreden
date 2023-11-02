@@ -1,11 +1,14 @@
-import 'package:exploreden/screens/auth/auth_signup.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exploreden/screens/dashboard/main_dashboard.dart';
 import 'package:exploreden/services/auth_service.dart';
+import 'package:exploreden/services/database_service.dart';
 import 'package:exploreden/utils/colors.dart';
 import 'package:exploreden/utils/controllers.dart';
 import 'package:exploreden/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:social_login_buttons/social_login_buttons.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -61,141 +64,48 @@ class _SignInPageState extends State<SignInPage> {
             const SizedBox(
               height: 50,
             ),
-            Container(
-              margin: const EdgeInsets.only(left: 15, right: 15),
-              child: Text(
-                "Enter your email",
-                style: TextStyle(
-                  color: mainColor,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(15),
-                  ),
-                  boxShadow: const [
-                    BoxShadow(
-                        blurRadius: 0.2, spreadRadius: 0.5, color: Colors.grey)
-                  ],
-                  color: colorWhite,
-                ),
-                margin: const EdgeInsets.only(left: 15, right: 15),
-                child: TextFormField(
-                  controller: loginEmailControllers,
-                  decoration: InputDecoration(
-                    hintText: "Enter Your Email Address ",
-                    fillColor: colorWhite,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: colorWhite),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: colorWhite),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: colorWhite),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 15, right: 15, top: 6),
-              child: Text(
-                "Enter your password",
-                style: TextStyle(
-                  color: mainColor,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(15),
-                  ),
-                  boxShadow: const [
-                    BoxShadow(
-                        blurRadius: 0.2, spreadRadius: 0.5, color: Colors.grey)
-                  ],
-                  color: colorWhite,
-                ),
-                margin: const EdgeInsets.only(left: 15, right: 15),
-                child: TextFormField(
-                  controller: loginPasswordControllers,
-                  decoration: InputDecoration(
-                    hintText: "Enter Your Password ",
-                    fillColor: colorWhite,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: colorWhite),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: colorWhite),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: colorWhite),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
             _isloading
-                ? Center(child: CircularProgressIndicator())
-                : Center(
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: mainColor,
-                          fixedSize: const Size(303, 60),
-                        ),
-                        onPressed: signUpUsers,
-                        child: Text(
-                          "Enter",
-                          style: TextStyle(
-                              color: colorWhite,
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold),
-                        )),
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SocialLoginButton(
+                      buttonType: SocialLoginButtonType.google,
+                      onPressed: () async {
+                        setState(() {
+                          _isloading = true;
+                        });
+                        await DatabaseMethods()
+                            .signInWithGoogle()
+                            .then((value) async {
+                          await FirebaseFirestore.instance
+                              .collection("users")
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .set({
+                            "photoURL": FirebaseAuth
+                                .instance.currentUser!.photoURL
+                                .toString(),
+                            "email": FirebaseAuth.instance.currentUser!.email,
+                            "name":
+                                FirebaseAuth.instance.currentUser!.displayName,
+                            "phoneNumber": FirebaseAuth
+                                .instance.currentUser!.phoneNumber
+                                .toString(),
+                            "uid": FirebaseAuth.instance.currentUser!.uid
+                          });
+                        });
+                        setState(() {
+                          _isloading = false;
+                        });
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => MainDashboard()));
+                      },
+                      imageWidth: 20,
+                    ),
                   ),
-            Center(
-              child: TextButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (builder) => AuthSignUp()));
-                  },
-                  child: Text(
-                    "Don't Have an account",
-                    style: TextStyle(color: mainColor),
-                  )),
-            )
           ],
         ),
       ),
