@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exploreden/screens/dashboard/main_dashboard.dart';
+import 'package:exploreden/screens/profile/interest_screen.dart';
 import 'package:exploreden/services/auth_service.dart';
 import 'package:exploreden/services/database_service.dart';
 import 'package:exploreden/utils/colors.dart';
@@ -101,7 +102,7 @@ class _SignInPageState extends State<SignInPage> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (builder) => MainDashboard()));
+                                builder: (builder) => InterestScreen()));
                       },
                       imageWidth: 20,
                     ),
